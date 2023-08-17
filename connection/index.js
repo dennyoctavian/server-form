@@ -1,10 +1,19 @@
 // getting-started.js
 import mongoose from "mongoose";
+import { env } from "../config/index.js";
 
 main().catch((err) => console.log(err));
 
 async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/test");
+  if (env.STAGE === "dev") {
+    await mongoose.connect(
+      `${env.MONGODB_URL}${env.MONGODB_HOST}:${env.MONGODB_PORT}/${env.MONGODB_DB_NAME}`
+    );
+  } else if (env.STAGE === "prod") {
+    await mongoose.connect(
+      `${env.MONGODB_URL}${env.MONGODB_USERNAME}:${env.MONGODB_PASSWORD}@${env.MONGODB_HOST}:${env.MONGODB_PORT}/${env.MONGODB_DB_NAME}`
+    );
+  }
 
-  // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
+  console.info("Success Connect to Mongodb");
 }

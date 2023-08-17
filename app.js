@@ -1,7 +1,21 @@
 import express from "express";
-const app = express();
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import logger from "morgan";
+import "./connection/index.js";
+import { env } from "./config/index.js";
+import path from "path";
+const __dirname = path.resolve();
 
-app.get((req, res) => {
+const app = express();
+app.use(logger(env.STAGE));
+app.use(express.json());
+app.use(cors());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use("/static", express.static(path.join(__dirname, "public")));
+
+app.get("*", (req, res) => {
   res.status(404).json({
     success: false,
     message: "Url Not Found",
@@ -13,4 +27,4 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.listen(3000);
+app.listen(env.PORT);
