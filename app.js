@@ -5,6 +5,7 @@ import logger from "morgan";
 import "./connection/index.js";
 import { env } from "./config/index.js";
 import path from "path";
+import router from "./router/index.js";
 const __dirname = path.resolve();
 
 const app = express();
@@ -15,7 +16,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use("/static", express.static(path.join(__dirname, "public")));
 
-app.get("*", (req, res) => {
+app.use("/api/v1", router);
+
+app.use("*", (req, res) => {
   res.status(404).json({
     success: false,
     message: "Url Not Found",
@@ -23,8 +26,6 @@ app.get("*", (req, res) => {
   });
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
+app.listen(env.PORT, () => {
+  console.info(`Server running on port ${env.PORT}`);
 });
-
-app.listen(env.PORT);
