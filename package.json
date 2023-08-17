@@ -1,0 +1,17 @@
+{
+  "name": "server-form",
+  "version": "1.0.0",
+  "description": "API Server Form, Belajar dari wegodev",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Denny Octavian",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.4.3"
+  }
+}
